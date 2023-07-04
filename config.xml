@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <modules>
+        <module category="Datenaustausch" context="14401_FeiertageFerien" id="14401" name="FeiertageFerien (14401)" version="00.01">
+            <inputs>
+			    <input type="string" const_name="country_iso_code" init_value="DE">ISO-Code Land</input>
+			    <input type="string" const_name="subdivision_code" init_value="DE-BY">Code Verwaltungseinheit</input>
+            	<input type="number" const_name="midnight" init_value="0">Mitternacht</input>
+            </inputs>
+            <outputs>
+				<output type="number" const_name="frei" init_value="0">Feiertag/Ferien</output>
+            </outputs>               
+			<remanent_variables>
+            </remanent_variables>
+            <imports>
+            </imports>		
+        </module>			
+    </modules>
+</config>
+                 
