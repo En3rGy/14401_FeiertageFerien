@@ -6,9 +6,10 @@
 			    <input type="string" const_name="country_iso_code" init_value="DE">ISO-Code Land</input>
 			    <input type="string" const_name="subdivision_code" init_value="DE-BY">Code Verwaltungseinheit</input>
             	<input type="number" const_name="midnight" init_value="0">Mitternacht</input>
+            	<input type="number" const_name="get_holidays" init_value="0">Feiertage/Ferien abrufen</input>
             </inputs>
             <outputs>
-				<output type="number" const_name="frei" init_value="0">Feiertag/Ferien</output>
+				<output type="number" const_name="is_holiday" init_value="0">Feiertag/Ferien</output>
             </outputs>               
 			<remanent_variables>
             </remanent_variables>

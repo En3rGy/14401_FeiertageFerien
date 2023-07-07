@@ -22,6 +22,7 @@ class TestSequenceFunctions(unittest.TestCase):
         print("\n###setUp")
 
         self.tst = FeiertageFerien_14401_14401(0)
+        self.tst.on_init()
         self.tst.debug_input_value[self.tst.PIN_I_COUNTRY_ISO_CODE] = "DE"
         self.tst.debug_input_value[self.tst.PIN_I_SUBDIVISION_CODE] = "DE-BY"
         self.tst.logger.setLevel(logging.DEBUG)
@@ -29,22 +30,50 @@ class TestSequenceFunctions(unittest.TestCase):
     def test_check_status(self):
         print("### call")
         print("# 1")
-        rep = self.tst.check_status("2023-07-03")
+        rep = self.tst.check_date("2023-07-03")
         self.assertFalse(rep)
 
         print("# 2")
-        rep = self.tst.check_status("2023-08-15")
+        rep = self.tst.check_date("2023-08-15")
         self.assertTrue(rep)
 
         print("# 3")
-        rep = self.tst.check_status("2023-06-02")
+        rep = self.tst.check_date("2023-11-02")
         self.assertTrue(rep)
+
+    def test_get_holidays(self):
+        print("# test_get_holidays")
+        self.tst.on_init()
+        self.assertEqual({}, self.tst.holidays)
+        self.tst.get_holidays()
+        print(self.tst.holidays)
+        self.assertGreater(self.tst.holidays, 0)
+        logging.debug(self.tst.holidays)
+
+    def test_date_365(self):
+        res = self.tst.get_356d("2112-03-15")
+        self.assertEqual("2113-03-15", res)
+        res = self.tst.get_356d("2020-02-29")
+        self.assertEqual("2021-02-28", res)
+        res = False
+        try:
+            res = self.tst.get_356d("2020-13-32")
+        except ValueError:
+            res = True
+        self.assertTrue(res)
 
     def test_system_test(self):
         self.tst.on_init()
-        self.assertFalse(self.tst.PIN_O_FREI in self.tst.debug_output_value)
+        self.assertFalse(self.tst.PIN_O_IS_HOLIDAY in self.tst.debug_output_value)
         self.tst.on_input_value(self.tst.PIN_I_MIDNIGHT, 1)
-        self.assertTrue(self.tst.PIN_O_FREI in self.tst.debug_output_value)
+
+        expect = False
+        try:
+            self.assertTrue(self.tst.PIN_O_IS_HOLIDAY in self.tst.debug_output_value)
+        except ValueError:
+            expect = True
+
+        self.assertTrue(expect)
 
     def test_get_date(self):
         now = datetime.now()
