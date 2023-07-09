@@ -33,11 +33,12 @@ class FeiertageFerien_14401_14401(hsl20_4.BaseModule):
         self.holidays = {}
         logging.basicConfig()
         self.logger = logging.getLogger(__name__)
+        self.logger.setLevel(logging.INFO)
 
     DATE_FORMAT = "%Y-%m-%d"
 
     def set_output_value_sbc(self, pin, val):
-        self.logger.debug("set_output_value_sbc({}, {})".format(pin, val))
+        self.logger.debug("Entering set_output_value_sbc({}, {})".format(pin, val))
         if pin in self.g_out_sbc:
             if self.g_out_sbc[pin] == val:
                 print ("# SBC: pin " + str(pin) + " <- data not send / " + str(val).decode("utf-8"))
@@ -47,7 +48,7 @@ class FeiertageFerien_14401_14401(hsl20_4.BaseModule):
         self.g_out_sbc[pin] = val
 
     def get_356d(self, start_date_str=None):
-        self.logger.debug("get_356d({})".format(start_date_str))
+        self.logger.debug("Entering get_356d({})".format(start_date_str))
         if start_date_str is None:
             start_date = datetime.now()
         else:
@@ -69,7 +70,7 @@ class FeiertageFerien_14401_14401(hsl20_4.BaseModule):
         :param end_date: str, end date in format 'YYYY-MM-DD'
         :return: bool, True if test_date is in range, False otherwise
         """
-        self.logger.debug("is_date_in_range({}, {}, {})".format(start_date, end_date, test_date))
+        self.logger.debug("Entering is_date_in_range({}, {}, {})".format(start_date, end_date, test_date))
         if test_date is None:
             test_date = self.get_date()
 
@@ -86,20 +87,20 @@ class FeiertageFerien_14401_14401(hsl20_4.BaseModule):
         return start_date <= test_date <= end_date
 
     def get_date(self):
-        self.logger.debug("get_date()")
+        self.logger.debug("Entering get_date()")
         now = datetime.now()
         time_now = now.strftime(self.DATE_FORMAT)
         return time_now
 
     def remove_outdated_holidays(self):
-        self.logger.debug("remove_outdated_holidays()")
+        self.logger.debug("Entering remove_outdated_holidays()")
         today = self.get_date()
         for holiday in self.holidays:
             if holiday["endDate"] < today:
                 self.holidays.remove(holiday["id"])
 
     def get_holidays(self, start_date=None, end_date=None):
-        self.logger.debug("get_holidays({}, {})".format(start_date, end_date))
+        self.logger.debug("Entering get_holidays({}, {})".format(start_date, end_date))
         endpoints = ["PublicHolidays",
                      "SchoolHolidays"]
 
@@ -123,19 +124,20 @@ class FeiertageFerien_14401_14401(hsl20_4.BaseModule):
         self.DEBUG.set_value("Holiday entries in storage", len(self.holidays))
 
     def check_date(self, test_date):
-        self.logger.debug("check_date({})".format(test_date))
+        self.logger.debug("Entering check_date({})".format(test_date))
         if len(self.holidays) == 0:
             self.get_holidays(test_date, self.get_356d(test_date))
 
-        for holiday in self.holidays:
-            res = self.is_date_in_range(holiday["startDate"], holiday["endDate"], test_date)
+        for id in self.holidays:
+            # self.logger.debug("In check_date, holiday = {}".format(self.holidays[id]))
+            res = self.is_date_in_range(self.holidays[id]["startDate"], self.holidays[id]["endDate"], test_date)
             if res:
                 return True
 
         return False
 
     def get_https_response(self, endpoint, country_iso_code, subdivision_code, start_date, end_date=None):
-        self.logger.debug("get_https_response({}, {}, {}, {}, {})".format(endpoint,
+        self.logger.debug("Entering get_https_response({}, {}, {}, {}, {})".format(endpoint,
                                                                           country_iso_code,
                                                                           subdivision_code,
                                                                           start_date,
@@ -161,7 +163,7 @@ class FeiertageFerien_14401_14401(hsl20_4.BaseModule):
         result = response.read()
         ret_code = response.getcode()
         json_result = json.loads(result)
-        self.logger.debug("{}: {}".format(endpoint, result))
+        self.logger.debug("In get_https_response, {} = {}".format(endpoint, result))
 
         if ret_code == 200:
             self.DEBUG.add_message("OK")
@@ -173,12 +175,11 @@ class FeiertageFerien_14401_14401(hsl20_4.BaseModule):
         return []
 
     def on_init(self):
-        self.logger.setLevel(logging.INFO)
-        self.logger.debug("on_init()")
+        self.logger.debug("Entering on_init()")
         self.DEBUG = self.FRAMEWORK.create_debug_section()
 
     def on_input_value(self, index, value):
-        self.logger.debug("on_input_value({}, {})".format(index, value))
+        self.logger.debug("Entering on_input_value({}, {})".format(index, value))
         if index == self.PIN_I_MIDNIGHT and value:
             try:
                 is_holiday = self.check_date(self.get_date())

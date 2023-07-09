@@ -62,18 +62,21 @@ class TestSequenceFunctions(unittest.TestCase):
             res = True
         self.assertTrue(res)
 
-    def test_system_test(self):
+    def test_system_test_midnight(self):
         self.tst.on_init()
         self.assertFalse(self.tst.PIN_O_IS_HOLIDAY in self.tst.debug_output_value)
+        self.tst.on_input_value(self.tst.PIN_I_MIDNIGHT, 0)
+        self.assertFalse(self.tst.PIN_O_IS_HOLIDAY in self.tst.debug_output_value)
         self.tst.on_input_value(self.tst.PIN_I_MIDNIGHT, 1)
+        self.assertTrue(self.tst.PIN_O_IS_HOLIDAY in self.tst.debug_output_value)
 
-        expect = False
-        try:
-            self.assertTrue(self.tst.PIN_O_IS_HOLIDAY in self.tst.debug_output_value)
-        except ValueError:
-            expect = True
-
-        self.assertTrue(expect)
+    def test_system_test_get_holidays(self):
+        self.tst.on_init()
+        self.assertTrue(len(self.tst.holidays) == 0)
+        self.tst.on_input_value(self.tst.PIN_I_GET_HOLIDAYS, 0)
+        self.assertTrue(len(self.tst.holidays) == 0)
+        self.tst.on_input_value(self.tst.PIN_I_GET_HOLIDAYS, 1)
+        self.assertTrue(len(self.tst.holidays) > 0)
 
     def test_get_date(self):
         now = datetime.now()
