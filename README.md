@@ -1,8 +1,12 @@
 # FeiertageFerien (14401)
 Das Logikmodul nutzt https://www.openholidaysapi.org, um festzustellen, ob es sich beim aktuellen Tag um einen Feiertag 
-oder um einen Tag der Schulferien handelt. 
+oder um einen Tag der Schulferien handelt.
 
-**Achtung**: Fehler bei den Eingängen können *nicht* detektiert werden und führen zur Ausgabe "kein Feiertag / Ferientag". 
+Wir das Überprüfen eines Tages kommandiert und es sind *keine* Feiertage bekannt, werden zuerst die Feiertage für die 
+kommenden 356 Tage abgerufen.  
+
+**Achtung**: Fehler bei den Eingängen können *nicht* detektiert werden und führen zur Ausgabe "kein Feiertag / 
+Ferientag". 
 
 ## Voraussetzungen
 HSL 2.0.4
@@ -12,11 +16,12 @@ Die .hslz Datei mit dem Gira Experte importieren. Das Logikmodul ist dann in der
 
 ## Eingänge
 
-| Nr. | Eingang                 | Initwert | Beschreibung                                                                                                                                                                                                                                                                                              |
-|-----|-------------------------|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 1   | ISO-Code Land           | DE       | Länderkürzel gem. [https://openholidaysapi.org/Countries](https://openholidaysapi.org/Countries)                                                                                                                                                                                                          |
-| 2   | Code Verwaltungseinheit | DE-BY    | Kürzel der Verwaltungseinheit gem. Länderkürzel gem. `https://openholidaysapi.org/Subdivisions?countryIsoCode={Ländercode}` <br>Z.B. für Deutschland mit `{Ländercode}` = DE:<br>[https://openholidaysapi.org/Subdivisions?countryIsoCode=DE](https://openholidaysapi.org/Subdivisions?countryIsoCode=DE) |
-| 3   | Mitternacht             | 0        | Der Baustein prüft den Feiertags- / Schulferienstatus des aktuellen Tages, wenn auf diesem Eingang eine 1 empfangen wird.                                                                                                                                                                                 | 
+| Nr. | Eingang                  | Initwert | Beschreibung                                                                                                                                                                                                                                                                                              |
+|-----|--------------------------|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1   | ISO-Code Land            | DE       | Länderkürzel gem. [https://openholidaysapi.org/Countries](https://openholidaysapi.org/Countries)                                                                                                                                                                                                          |
+| 2   | Code Verwaltungseinheit  | DE-BY    | Kürzel der Verwaltungseinheit gem. Länderkürzel gem. `https://openholidaysapi.org/Subdivisions?countryIsoCode={Ländercode}` <br>Z.B. für Deutschland mit `{Ländercode}` = DE:<br>[https://openholidaysapi.org/Subdivisions?countryIsoCode=DE](https://openholidaysapi.org/Subdivisions?countryIsoCode=DE) |
+| 3   | Mitternacht              | 0        | <ul><li>Der Baustein prüft den Feiertags- / Schulferienstatus des aktuellen Tages, wenn auf diesem Eingang eine 1 empfangen wird.</li><li>Veraltete Einträge werden gelöscht.</li><li>Wenn keine / 0 Einträge bekannt sind, werden die nächsten 356 Tage abgerufen und gespeichert.</li></ul>             |
+| 4   | Feiertage/Ferien abrufen | 0        | Der Baustein ruft die Feiertage und Ferien für die nächsten 365 Tage ab                                                                                                                                                                                                                                   |
 
 
 ## Ausgänge
@@ -40,16 +45,16 @@ Alle Ausgänge sind Send-by-Change ausgeführt.
 
 ### Open Issues / Known Bugs
 
-- 
+
 
 ### Support
 
-Für Fehlermeldungen oder Feature-Wünsche, bitte [github issues](https://github.com/En3rGy/14106_Zoe/issues) nutzen.
+Für Fehlermeldungen oder Feature-Wünsche, bitte [github issues](https://github.com/En3rGy/14401_FeiertageFerien/issues) nutzen.
 Fragen am besten als Thread im [knx-user-forum.de](https://knx-user-forum.de) stellen. Dort finden sich ggf. bereits Diskussionen und Lösungen.
 
 ## Code
 
-Der Code des Bausteins befindet sich in der hslz Datei oder auf [github](https://github.com/En3rGy/14106_Zoe).
+Der Code des Bausteins befindet sich in der hslz Datei oder auf [github](https://github.com/En3rGy/14401_FeiertageFerien).
 
 ### Entwicklungsumgebung
 
