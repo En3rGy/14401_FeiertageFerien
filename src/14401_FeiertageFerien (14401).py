@@ -21,8 +21,9 @@ class FeiertageFerien_14401_14401(hsl20_4.BaseModule):
         self.LOGGER = self._get_logger(hsl20_4.LOGGING_NONE,())
         self.PIN_I_COUNTRY_ISO_CODE=1
         self.PIN_I_SUBDIVISION_CODE=2
-        self.PIN_I_MIDNIGHT=3
-        self.PIN_I_GET_HOLIDAYS=4
+        self.PIN_I_USE_SCHOOL=3
+        self.PIN_I_MIDNIGHT=4
+        self.PIN_I_GET_HOLIDAYS=5
         self.PIN_O_IS_HOLIDAY=1
 
 ########################################################################################################
@@ -101,8 +102,10 @@ class FeiertageFerien_14401_14401(hsl20_4.BaseModule):
 
     def get_holidays(self, start_date=None, end_date=None):
         self.logger.debug("Entering get_holidays({}, {})".format(start_date, end_date))
-        endpoints = ["PublicHolidays",
-                     "SchoolHolidays"]
+
+        endpoints = ["PublicHolidays"]
+        if self._get_input_value(self.PIN_I_USE_SCHOOL):
+            endpoints.append("SchoolHolidays")
 
         self.remove_outdated_holidays()
 
@@ -138,10 +141,10 @@ class FeiertageFerien_14401_14401(hsl20_4.BaseModule):
 
     def get_https_response(self, endpoint, country_iso_code, subdivision_code, start_date, end_date=None):
         self.logger.debug("Entering get_https_response({}, {}, {}, {}, {})".format(endpoint,
-                                                                          country_iso_code,
-                                                                          subdivision_code,
-                                                                          start_date,
-                                                                          end_date))
+                                                                                   country_iso_code,
+                                                                                   subdivision_code,
+                                                                                   start_date,
+                                                                                   end_date))
         # Build a SSL Context to disable certificate verification.
         if end_date is None:
             end_date = start_date
@@ -188,6 +191,15 @@ class FeiertageFerien_14401_14401(hsl20_4.BaseModule):
                 self.DEBUG.add_exception(e)
 
         elif index == self.PIN_I_GET_HOLIDAYS and value:
+            try:
+                start_date = self.get_date()
+                end_date = self.get_356d()
+                self.get_holidays(start_date, end_date)
+            except Exception as e:
+                self.DEBUG.add_exception(e)
+
+        elif index == self.PIN_I_USE_SCHOOL:
+            self.holidays = {}
             try:
                 start_date = self.get_date()
                 end_date = self.get_356d()

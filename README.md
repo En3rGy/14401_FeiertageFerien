@@ -22,7 +22,7 @@ Die .hslz Datei mit dem Gira Experte importieren. Das Logikmodul ist dann in der
 | 2   | Code Verwaltungseinheit  | DE-BY    | Kürzel der Verwaltungseinheit gem. Länderkürzel gem. `https://openholidaysapi.org/Subdivisions?countryIsoCode={Ländercode}` <br>Z.B. für Deutschland mit `{Ländercode}` = DE:<br>[https://openholidaysapi.org/Subdivisions?countryIsoCode=DE](https://openholidaysapi.org/Subdivisions?countryIsoCode=DE) |
 | 3   | Mitternacht              | 0        | <ul><li>Der Baustein prüft den Feiertags- / Schulferienstatus des aktuellen Tages, wenn auf diesem Eingang eine 1 empfangen wird.</li><li>Veraltete Einträge werden gelöscht.</li><li>Wenn keine / 0 Einträge bekannt sind, werden die nächsten 356 Tage abgerufen und gespeichert.</li></ul>             |
 | 4   | Feiertage/Ferien abrufen | 0        | Der Baustein ruft die Feiertage und Ferien für die nächsten 365 Tage ab                                                                                                                                                                                                                                   |
-
+| 5   | Ferien berücksichtigen   | 1        | Bei einem Eingang = 1 werden nenben den öffentlichen Feiertagen auch die Schulferien berücksichtigt. Bei einer 0 entsprechend nur die öffentlichen Feiertage.                                                                                                                                             |
 
 ## Ausgänge
 Alle Ausgänge sind Send-by-Change ausgeführt.
@@ -40,6 +40,7 @@ Alle Ausgänge sind Send-by-Change ausgeführt.
 
 ### Change Log
 
+- v0.2: Schalter zur Berücksichtigung der Schulferien hinzugefügt (vs. nur öffentliche Feiertage)
 - v0.1
     - Initial
 

@@ -25,6 +25,7 @@ class TestSequenceFunctions(unittest.TestCase):
         self.tst.on_init()
         self.tst.debug_input_value[self.tst.PIN_I_COUNTRY_ISO_CODE] = "DE"
         self.tst.debug_input_value[self.tst.PIN_I_SUBDIVISION_CODE] = "DE-BY"
+        self.tst.debug_input_value[self.tst.PIN_I_USE_SCHOOL] = True
         self.tst.logger.setLevel(logging.DEBUG)
 
     def test_check_status(self):
@@ -38,8 +39,20 @@ class TestSequenceFunctions(unittest.TestCase):
         self.assertTrue(rep)
 
         print("# 3")
-        rep = self.tst.check_date("2023-11-02")
+        rep = self.tst.check_date("2023-08-31")
         self.assertTrue(rep)
+
+    def test_public_holidays_only(self):
+        print("### call")
+        print("# 1")
+        rep = self.tst.check_date("2023-08-31")
+        self.assertTrue(rep)
+
+        print("# 2")
+        self.tst.holidays = {}
+        self.tst.debug_input_value[self.tst.PIN_I_USE_SCHOOL] = False
+        rep = self.tst.check_date("2023-08-31")
+        self.assertFalse(rep)
 
     def test_get_holidays(self):
         print("# test_get_holidays")
