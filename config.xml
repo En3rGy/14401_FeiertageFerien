@@ -1,22 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
     <modules>
-        <module category="Datenaustausch" context="14401_FeiertageFerien" id="14401" name="FeiertageFerien (14401)" version="00.02">
+        <module category="Data Exchange" context="14401_FeiertageFerien" id="14401" name="School and Public Holidays (14401)" version="00.02">
             <inputs>
-			    <input type="string" const_name="country_iso_code" init_value="DE">ISO-Code Land</input>
-			    <input type="string" const_name="subdivision_code" init_value="DE-BY">Code Verwaltungseinheit</input>
-                <input type="number" const_name="use_school" init_value="1">Ferien berücksichtigen</input>
-            	<input type="number" const_name="midnight" init_value="0">Mitternacht</input>
-            	<input type="number" const_name="get_holidays" init_value="0">Feiertage/Ferien abrufen</input>
+                <input type="string" const_name="country_iso_code" init_value="DE">Country ISO Code</input>
+                <input type="string" const_name="subdivision_code" init_value="DE-BY">District Code</input>
+                <input type="number" const_name="use_school" init_value="1">Respect School Holidays (1/0)</input>
+                <input type="number" const_name="midnight" init_value="0">Midnight (1/0)</input>
+                <input type="number" const_name="get_holidays" init_value="0">Download Holidays (1/0)</input>
             </inputs>
             <outputs>
-				<output type="number" const_name="is_holiday" init_value="0">Feiertag/Ferien</output>
-            </outputs>               
-			<remanent_variables>
+                <output type="number" const_name="is_holiday" init_value="0">Holiday (1/0)</output>
+            </outputs>
+            <remanent_variables>
             </remanent_variables>
             <imports>
-            </imports>		
-        </module>			
+            </imports>
+            <translations>
+                <translation language="DE" name="FeiertageFerien (14401)" category="Datenaustausch">
+                    <translation_inputs>
+                        <translation_input>ISO-Code Land</translation_input>
+                        <translation_input>Code Verwaltungseinheit (1/0)</translation_input>
+                        <translation_input>Ferien berücksichtigen (1/0)</translation_input>
+                        <translation_input>Mitternacht (1/0)</translation_input>
+                        <translation_input>Feiertage/Ferien abrufen (1/0)</translation_input>
+                    </translation_inputs>
+                    <translation_outputs>
+                        <translation_output>Feiertag/Ferien (1/0)</translation_output>
+                    </translation_outputs>
+                </translation>
+                <translation language="FR" name="FériésVacances (14401)" category="Échange de données">
+                    <translation_inputs>
+                        <translation_input>Code ISO du pays</translation_input>
+                        <translation_input>Code de l'unité administrative (1/0)</translation_input>
+                        <translation_input>Tenir compte des vacances (1/0)</translation_input>
+                        <translation_input>Minuit (1/0)</translation_input>
+                        <translation_input>Récupérer les jours fériés/vacances (1/0)</translation_input>
+                    </translation_inputs>
+                    <translation_outputs>
+                        <translation_output>Jour férié/vacances (1/0)</translation_output>
+                    </translation_outputs>
+                </translation>
+                <translation language="IT" name="FestivitàVacanze (14401)" category="Scambio di dati">
+                   <translation_inputs>
+                      <translation_input>Codice ISO del Paese</translation_input>
+                      <translation_input>Codice dell'unità amministrativa (1/0)</translation_input>
+                      <translation_input>Tenere conto delle festività (1/0)</translation_input>
+                      <translation_input>Mezzanotte (1/0)</translation_input>
+                      <translation_input>Ottenere festività/vacanze (1/0)</translation_input>
+                   </translation_inputs>
+                   <translation_outputs>
+                      <translation_output>Festività/vacanze (1/0)</translation_output>
+                   </translation_outputs>
+                </translation>
+            </translations>
+        </module>
     </modules>
 </config>
                  
