@@ -1,8 +1,8 @@
 # FeiertageFerien (14401)
-Das Logikmodul nutzt https://www.openholidaysapi.org, um festzustellen, ob es sich beim aktuellen Tag um einen Feiertag 
+Das Logikmodul nutzt [https://openholidaysapi.org](https://openholidaysapi.org), um festzustellen, ob es sich beim aktuellen Tag um einen Feiertag 
 oder um einen Tag der Schulferien handelt.
 
-Wir das Überprüfen eines Tages kommandiert und es sind *keine* Feiertage bekannt, werden zuerst die Feiertage für die 
+Wird das Überprüfen eines Tages kommandiert und es sind *keine* Feiertage bekannt, werden zuerst die Feiertage für die 
 kommenden 356 Tage abgerufen.  
 
 **Achtung**: Fehler bei den Eingängen können *nicht* detektiert werden und führen zur Ausgabe "kein Feiertag / 
@@ -20,9 +20,9 @@ Die .hslz Datei mit dem Gira Experte importieren. Das Logikmodul ist dann in der
 |-----|--------------------------|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | 1   | ISO-Code Land            | DE       | Länderkürzel gem. [https://openholidaysapi.org/Countries](https://openholidaysapi.org/Countries)                                                                                                                                                                                                          |
 | 2   | Code Verwaltungseinheit  | DE-BY    | Kürzel der Verwaltungseinheit gem. Länderkürzel gem. `https://openholidaysapi.org/Subdivisions?countryIsoCode={Ländercode}` <br>Z.B. für Deutschland mit `{Ländercode}` = DE:<br>[https://openholidaysapi.org/Subdivisions?countryIsoCode=DE](https://openholidaysapi.org/Subdivisions?countryIsoCode=DE) |
-| 3   | Mitternacht              | 0        | <ul><li>Der Baustein prüft den Feiertags- / Schulferienstatus des aktuellen Tages, wenn auf diesem Eingang eine 1 empfangen wird.</li><li>Veraltete Einträge werden gelöscht.</li><li>Wenn keine / 0 Einträge bekannt sind, werden die nächsten 356 Tage abgerufen und gespeichert.</li></ul>             |
-| 4   | Feiertage/Ferien abrufen | 0        | Der Baustein ruft die Feiertage und Ferien für die nächsten 365 Tage ab                                                                                                                                                                                                                                   |
-| 5   | Ferien berücksichtigen   | 1        | Bei einem Eingang = 1 werden nenben den öffentlichen Feiertagen auch die Schulferien berücksichtigt. Bei einer 0 entsprechend nur die öffentlichen Feiertage.                                                                                                                                             |
+| 3   | Mitternacht              | 0        | Bei einem Eingang ungleich 0: <ul><li>Der Baustein prüft den Feiertags- / Schulferienstatus des aktuellen Tages, wenn auf diesem Eingang eine 1 empfangen wird.</li><li>Veraltete Einträge werden gelöscht.</li><li>Wenn keine / 0 Einträge bekannt sind, werden die nächsten 356 Tage abgerufen und gespeichert.</li></ul>             |
+| 4   | Feiertage/Ferien abrufen | 0        | Bei einem Eingang ungleich 0 ruft der Baustein die Feiertage und Ferien für die nächsten 365 Tage ab                                                                                                                                                                                                                                   |
+| 5   | Ferien berücksichtigen   | 1        | Bei einem Eingang = 1 werden neben den öffentlichen Feiertagen auch die Schulferien berücksichtigt. Bei einer 0 entsprechend nur die öffentlichen Feiertage.                                                                                                                                             |
 
 ## Ausgänge
 Alle Ausgänge sind Send-by-Change ausgeführt.
@@ -41,12 +41,11 @@ Alle Ausgänge sind Send-by-Change ausgeführt.
 ### Change Log
 
 - v0.2: Schalter zur Berücksichtigung der Schulferien hinzugefügt (vs. nur öffentliche Feiertage)
-- v0.1
-    - Initial
+- v0.1: Initial
 
 ### Open Issues / Known Bugs
 
-
+- keine
 
 ### Support
 
@@ -70,7 +69,7 @@ Der Code des Bausteins befindet sich in der hslz Datei oder auf [github](https:/
 
 ## Software Design Description
 
-* Der Baustein fragt https://www.openholidaysapi.org nach dem Status des Tages ab.
+* Der Baustein fragt [https://openholidaysapi.org](https://openholidaysapi.org) nach dem Status des Tages ab.
 * Der Baustein führt selbst *keine* zyklische Abfrage durch. Hintergrund ist, dass die Abfrage möglichst um Mitternacht 
 erfolgen sollte. Überprüft der Baustein dies selbst wäre ein Timer mit einer z.B. Minütlichen Ausführung nötig. Das 
 erhöht die Komplexität und Rechenlast des HS, wenn auch nur minimal. Ein Trigger für den Tageswechsel ist oftmals 
