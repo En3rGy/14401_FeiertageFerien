@@ -1,3 +1,4 @@
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
 # FeiertageFerien (14401)
 Das Logikmodul nutzt [https://openholidaysapi.org](https://openholidaysapi.org), um festzustellen, ob es sich beim aktuellen Tag um einen Feiertag 
 oder um einen Tag der Schulferien handelt.
